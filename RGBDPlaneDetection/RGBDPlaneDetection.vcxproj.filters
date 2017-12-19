@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="plane_detection.cpp" />
+    <ClCompile Include="include\MRF2.2\BP-S.cpp">
+      <Filter>MRF</Filter>
+    </ClCompile>
+    <ClCompile Include="include\MRF2.2\GCoptimization.cpp">
+      <Filter>MRF</Filter>
+    </ClCompile>
+    <ClCompile Include="include\MRF2.2\graph.cpp">
+      <Filter>MRF</Filter>
+    </ClCompile>
+    <ClCompile Include="include\MRF2.2\ICM.cpp">
+      <Filter>MRF</Filter>
+    </ClCompile>
+    <ClCompile Include="include\MRF2.2\LinkedBlockList.cpp">
+      <Filter>MRF</Filter>
+    </ClCompile>
+    <ClCompile Include="include\MRF2.2\maxflow.cpp">
+      <Filter>MRF</Filter>
+    </ClCompile>
+    <ClCompile Include="include\MRF2.2\MaxProdBP.cpp">
+      <Filter>MRF</Filter>
+    </ClCompile>
+    <ClCompile Include="include\MRF2.2\mrf.cpp">
+      <Filter>MRF</Filter>
+    </ClCompile>
+    <ClCompile Include="include\MRF2.2\regions-maxprod.cpp">
+      <Filter>MRF</Filter>
+    </ClCompile>
+    <ClCompile Include="include\MRF2.2\TRW-S.cpp">
+      <Filter>MRF</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="plane_detection.h" />
+    <ClInclude Include="include\MRF2.2\block.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\BP-S.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\energy.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\GCoptimization.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\graph.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\ICM.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\LinkedBlockList.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\MaxProdBP.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\mrf.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\regions-new.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\TRW-S.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MRF2.2\typeTruncatedQuadratic2D.h">
+      <Filter>MRF</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="MRF">
+      <UniqueIdentifier>{77d00de2-8f07-45fc-bf9b-c3a77eca4d31}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\MRF2.2\Makefile">
+      <Filter>MRF</Filter>
+    </None>
+  </ItemGroup>
+</Project>
