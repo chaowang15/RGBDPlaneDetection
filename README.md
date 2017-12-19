@@ -17,6 +17,15 @@ RGBDPlaneDetection <-o> color_image depth_image
 ```
 - `-o` is running MRF optimization to refine planes.
 
+## Output
+- Plane image in PNG
+- Plane image in PNG after refinement
+- Plane label image in PNG: the plane label each pixel belongs to.
+- Plane data file in TXT. Each line represents one plane with format like this:
+```
+#plane_index(starting from 0) plane_color_in_png_image(r,g,b between [0,255]) plane_normal(1x3) plane_center(1x3) xx yy zz sx sy sz sxx syy szz sxy syz sxz
+```
+Here `(xx yy zz)` are sum of all 3D points on the plane, `(sxx syy szz sxy syz sxz)` are the sum of `x*x, y*y, z*z, x*y, y*z` and `z*z` of all points on the plane, respectively.
+
 ## Note
-- Camera intrinsic parameters are set in `plane_detection.h`
-- 
+- Currently the code only works on [BundleFusion](http://graphics.stanford.edu/projects/bundlefusion/) or [3DLite](http://graphics.stanford.edu/projects/3dlite/) RGBD data. If you want to use other kinds of RGBD data, you need to rewrite the part of reading color and depth images, and reset the camera intrinsic parameters in `plane_detection.h`.
