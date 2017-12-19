@@ -29,4 +29,4 @@ Here `(sx sy sz)` are sum of all 3D points on the plane, `(sxx syy szz sxy syz s
 
 ## Note
 - Currently the code only works on [BundleFusion](http://graphics.stanford.edu/projects/bundlefusion/) or [3DLite](http://graphics.stanford.edu/projects/3dlite/) RGBD data. If you want to use other kinds of RGBD data, you need to rewrite the part of reading color and depth images, and reset the camera intrinsic parameters in `plane_detection.h`.
-- Note for the scale factor for depth images set in `plane_detection.h`.
+- Note for the scale factor for depth images in `plane_detection.h`.
