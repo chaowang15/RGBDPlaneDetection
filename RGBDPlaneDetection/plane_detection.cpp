@@ -10,7 +10,18 @@ PlaneDetection::PlaneDetection()
 
 PlaneDetection::~PlaneDetection()
 {
-
+	cloud.vertices.clear();
+	seg_img_.release();
+	opt_seg_img_.release();
+	color_img_.release();
+	opt_membership_img_.release();
+	pixel_boundary_flags_.clear();
+	pixel_grayval_.clear();
+	plane_colors_.clear();
+	plane_pixel_nums_.clear();
+	opt_plane_pixel_nums_.clear();
+	sum_stats_.clear();
+	opt_sum_stats_.clear();
 }
 
 // Temporarily don't need it since we set intrinsic parameters as constant values in the code.
@@ -179,11 +190,15 @@ void PlaneDetection::writePlaneData(string filename, bool run_mrf /* = false */)
 {
 	ofstream out(filename, ios::out);
 	out << "#plane_index number_of_points_on_the_plane plane_color_in_png_image(1x3) plane_normal(1x3) plane_center(1x3) "
-		<< "xx yy zz sx sy sz sxx syy szz sxy syz sxz" << endl;
+		<< "sx sy sz sxx syy szz sxy syz sxz" << endl;
 
 	for (int pidx = 0; pidx < plane_num_; ++pidx)
 	{
 		out << pidx << " ";
+		if (!run_mrf)
+			out << plane_pixel_nums_[pidx] << " ";
+		else
+			out << opt_plane_pixel_nums_[pidx] << " ";
 
 		// Plane color in output image
 		int vidx = plane_vertices_[pidx][0];
@@ -243,10 +258,12 @@ void PlaneDetection::computePlaneSumStats(bool run_mrf /* = false */)
 			sum_stats_[pidx].sxx += v[0] * v[0]; sum_stats_[pidx].syy += v[1] * v[1]; sum_stats_[pidx].szz += v[2] * v[2];
 			sum_stats_[pidx].sxy += v[0] * v[1]; sum_stats_[pidx].syz += v[1] * v[2]; sum_stats_[pidx].sxz += v[0] * v[2];
 		}
+		plane_pixel_nums_.push_back(int(plane_vertices_[pidx].size()));
 	}
 	if (run_mrf)
 	{
 		opt_sum_stats_.resize(plane_num_);
+		opt_plane_pixel_nums_.resize(plane_num_, 0);
 		for (int row = 0; row < kDepthHeight; ++row)
 		{
 			for (int col = 0; col < kDepthWidth; ++col)
@@ -254,6 +271,7 @@ void PlaneDetection::computePlaneSumStats(bool run_mrf /* = false */)
 				int label = opt_membership_img_.at<int>(row, col); // plane label each pixel belongs to
 				if (label != plane_num_) // pixel belongs to some plane
 				{
+					opt_plane_pixel_nums_[label]++;
 					int vidx = row * kDepthWidth + col;
 					const VertexType& v = cloud.vertices[vidx];
 					opt_sum_stats_[label].sx += v[0];		  opt_sum_stats_[label].sy += v[1];		    opt_sum_stats_[label].sz += v[2];
@@ -264,43 +282,3 @@ void PlaneDetection::computePlaneSumStats(bool run_mrf /* = false */)
 		}
 	}
 }
-
-//void PlaneDetection::updatePlaneData()
-//{
-//	for (int pidx = 0; pidx < plane_num_; ++pidx)
-//	{
-//		double sx = 0, sy = 0, sz = 0, sxx = 0, syy = 0, szz = 0, sxy = 0, syz = 0, sxz = 0;
-//		for (int i = 0; i < plane_vertices_[pidx].size(); ++i)
-//		{
-//			int vidx = plane_vertices_[pidx][i];
-//			VertexType v = cloud.vertices[vidx];
-//			sx += v[0];	sy += v[1];	sz += v[2];
-//			sxx += v[0] * v[0];	syy += v[1] * v[1]; szz += v[2] * v[2];
-//			sxy += v[0] * v[1]; syz += v[1] * v[2]; sxz += v[0] * v[2];
-//		}
-//		cout << sx << " " << sy << " " << sz << " " << sxx << " "<< syy << " "<< szz << " "<< sxy << " "<< syz << " "<< sxz << endl;
-//		ahc::PlaneSeg::Stats& stat = plane_filter.extractedPlanes[pidx]->stats;
-//		cout << stat.sx << " " << stat.sy << " " << stat.sz << " " << stat.sxx << " "<< stat.syy << " "<< stat.szz << " "<< stat.sxy << " "<< stat.syz << " "<< stat.sxz << endl;
-//	}
-//	vector<cv::Vec3b> plane_colors;
-//	for (int pidx = 0; pidx < plane_num_; ++pidx)
-//	{
-//		int vidx = plane_vertices_[pidx][0];
-//		cv::Vec3b c = seg_img_.at<cv::Vec3b>(vidx / kDepthWidth, vidx % kDepthWidth);
-//		plane_colors.push_back(c);
-//	}
-
-//cv::Mat mat(kDepthHeight, kDepthWidth, CV_32SC1);
-//for (int x = 0; x < kDepthHeight; ++x)
-//{
-//	for (int y = 0; y < kDepthWidth; ++y)
-//	{
-//		int pidx = plane_filter.membershipImg.at<int>(x, y);
-//		//cv::Vec3b c = seg_img_.at<cv::Vec3b>(x, y);
-//		//cout << pidx << " " << int(c.val[0]) << " " << int(c.val[1]) << " "<< int(c.val[2]) << endl;
-//		mat.at<int>(x,y) = (pidx < 0) ? -1 : pidx;
-//	}
-//	//cout << endl;
-//}
-//cv::imwrite(plane_filename + "-mapping.png", mat);
-//}

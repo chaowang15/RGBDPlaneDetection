@@ -23,7 +23,7 @@ RGBDPlaneDetection <-o> color_image depth_image
 - Plane label image in PNG: the plane label each pixel belongs to.
 - Plane data file in TXT. Each line represents one plane with format like this:
 ```
-#plane_index(starting from 0) plane_color_in_png_image(r,g,b between [0,255]) plane_normal(1x3) plane_center(1x3) sx sy sz sxx syy szz sxy syz sxz
+#plane_index(starting from 0) number_of_points_on_the_plane plane_color_in_png_image(r,g,b between [0,255]) plane_normal(1x3) plane_center(1x3) sx sy sz sxx syy szz sxy syz sxz
 ```
 Here `(sx sy sz)` are sum of all 3D points on the plane, `(sxx syy szz sxy syz sxz)` are the sum of `x*x, y*y, z*z, x*y, y*z` and `z*z` of all points on the plane, respectively.
 

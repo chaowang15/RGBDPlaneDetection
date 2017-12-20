@@ -73,6 +73,7 @@ public:
 	vector<int> pixel_grayval_;
 	vector<cv::Vec3b> plane_colors_;
 	vector<SumStats> sum_stats_, opt_sum_stats_; // parameters of sum of points from the same plane
+	vector<int> plane_pixel_nums_, opt_plane_pixel_nums_; // number of pixels each plane has
 
 public:
 	PlaneDetection();
