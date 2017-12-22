@@ -1,5 +1,6 @@
 #include "plane_detection.h"
 #include <stdint.h>
+#include <iomanip> // output double value precision
 
 PlaneDetection::PlaneDetection()
 {
@@ -214,27 +215,27 @@ void PlaneDetection::writePlaneData(string filename, bool run_mrf /* = false */)
 		// Sum of all points on the plane
 		if (run_mrf)
 		{
-			out << opt_sum_stats_[pidx].sx << " " 
-				<< opt_sum_stats_[pidx].sy << " " 
-				<< opt_sum_stats_[pidx].sz << " " 
-				<< opt_sum_stats_[pidx].sxx << " "
-				<< opt_sum_stats_[pidx].syy << " "
-				<< opt_sum_stats_[pidx].szz << " "
-				<< opt_sum_stats_[pidx].sxy << " "
-				<< opt_sum_stats_[pidx].syz << " "
-				<< opt_sum_stats_[pidx].sxz << endl;
+			out << opt_sum_stats_[pidx].sx << std::setprecision(8) << " " 
+				<< opt_sum_stats_[pidx].sy << std::setprecision(8) << " " 
+				<< opt_sum_stats_[pidx].sz << std::setprecision(8) << " " 
+				<< opt_sum_stats_[pidx].sxx << std::setprecision(8) << " "
+				<< opt_sum_stats_[pidx].syy << std::setprecision(8) << " "
+				<< opt_sum_stats_[pidx].szz << std::setprecision(8) << " "
+				<< opt_sum_stats_[pidx].sxy << std::setprecision(8) << " "
+				<< opt_sum_stats_[pidx].syz << std::setprecision(8) << " "
+				<< opt_sum_stats_[pidx].sxz << std::setprecision(8) << endl;
 		}
 		else
 		{
-			out << sum_stats_[pidx].sx << " " 
-				<< sum_stats_[pidx].sy << " " 
-				<< sum_stats_[pidx].sz << " " 
-				<< sum_stats_[pidx].sxx << " "
-				<< sum_stats_[pidx].syy << " "
-				<< sum_stats_[pidx].szz << " "
-				<< sum_stats_[pidx].sxy << " "
-				<< sum_stats_[pidx].syz << " "
-				<< sum_stats_[pidx].sxz << endl;
+			out << sum_stats_[pidx].sx << std::setprecision(8) << " " 
+				<< sum_stats_[pidx].sy << std::setprecision(8) << " " 
+				<< sum_stats_[pidx].sz << std::setprecision(8) << " " 
+				<< sum_stats_[pidx].sxx << std::setprecision(8) << " "
+				<< sum_stats_[pidx].syy << std::setprecision(8) << " "
+				<< sum_stats_[pidx].szz << std::setprecision(8) << " "
+				<< sum_stats_[pidx].sxy << std::setprecision(8) << " "
+				<< sum_stats_[pidx].syz << std::setprecision(8) << " "
+				<< sum_stats_[pidx].sxz << std::setprecision(8) << endl;
 		}
 
 		// NOTE: the plane-sum parameters computed from AHC code seems different from that computed from points belonging to planes shown above.
@@ -260,6 +261,13 @@ void PlaneDetection::computePlaneSumStats(bool run_mrf /* = false */)
 		}
 		plane_pixel_nums_.push_back(int(plane_vertices_[pidx].size()));
 	}
+	for (int pidx = 0; pidx < plane_num_; ++pidx)
+	{
+		int num = plane_pixel_nums_[pidx];
+		sum_stats_[pidx].sx /= num;		sum_stats_[pidx].sy /= num;		sum_stats_[pidx].sz /= num;
+		sum_stats_[pidx].sxx /= num;	sum_stats_[pidx].syy /= num;	sum_stats_[pidx].szz /= num;
+		sum_stats_[pidx].sxy /= num;	sum_stats_[pidx].syz /= num;	sum_stats_[pidx].sxz /= num;
+	}
 	if (run_mrf)
 	{
 		opt_sum_stats_.resize(plane_num_);
@@ -279,6 +287,13 @@ void PlaneDetection::computePlaneSumStats(bool run_mrf /* = false */)
 					opt_sum_stats_[label].sxy += v[0] * v[1]; opt_sum_stats_[label].syz += v[1] * v[2]; opt_sum_stats_[label].sxz += v[0] * v[2];
 				}
 			}
+		}
+		for (int pidx = 0; pidx < plane_num_; ++pidx)
+		{
+			int num = opt_plane_pixel_nums_[pidx];
+			opt_sum_stats_[pidx].sx /= num;		opt_sum_stats_[pidx].sy /= num;		opt_sum_stats_[pidx].sz /= num;
+			opt_sum_stats_[pidx].sxx /= num;	opt_sum_stats_[pidx].syy /= num;	opt_sum_stats_[pidx].szz /= num;
+			opt_sum_stats_[pidx].sxy /= num;	opt_sum_stats_[pidx].syz /= num;	opt_sum_stats_[pidx].sxz /= num;
 		}
 	}
 }
