@@ -64,13 +64,13 @@ void runMRFOptimization()
 
 void printUsage()
 {
-	cout << "Usage: RGBDPlaneDetection <-o> color_image depth_image" << endl;
+	cout << "Usage: RGBDPlaneDetection <-o> color_image depth_image output_folder" << endl;
 	cout << "-o: run MRF-optimization based plane refinement" << endl;
 }
 
 int main(int argc, char** argv)
 {
-	if (argc != 3 && argc != 4)
+	if (argc != 4 && argc != 5)
 	{
 		printUsage();
 		return -1;
@@ -78,6 +78,7 @@ int main(int argc, char** argv)
 	bool run_mrf = string(argv[1]) == "-o" ? true : false;
 	string color_filename = run_mrf ? string(argv[2]) : string(argv[1]);
 	string depth_filename = run_mrf ? string(argv[3]) : string(argv[2]);
+	string output_folder = run_mrf ? string(argv[4]) : string(argv[3]);
 	
 	plane_detection.readDepthImage(depth_filename);
 	plane_detection.readColorImage(color_filename);
@@ -88,9 +89,9 @@ int main(int argc, char** argv)
 		plane_detection.prepareForMRF();
 		runMRFOptimization();
 	}
-
-	// The filename of a depth image is like '/depth-image-path/frame-XXXXXX-depth.png'
-	string output_prefix = depth_filename.substr(0, depth_filename.length() - 10);
-	plane_detection.writeOutputFiles(output_prefix, run_mrf);
+	int pos = color_filename.find_last_of("/\\");
+	string frame_name = color_filename.substr(pos + 1);
+	frame_name = frame_name.substr(0, frame_name.length() - 10);
+	plane_detection.writeOutputFiles(output_folder, frame_name, run_mrf);
 	return 0;
 }

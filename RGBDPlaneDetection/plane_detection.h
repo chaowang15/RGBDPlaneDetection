@@ -89,9 +89,11 @@ public:
 
 	void prepareForMRF();
 
-	void writeOutputFiles(string filename_prefix, bool run_mrf = false);
+	void writeOutputFiles(string output_folder, string frame_name, bool run_mrf = false);
 
-	void writePlaneData(string filename, bool run_mrf = false);
+	void writePlaneDataFile(string filename, bool run_mrf = false);
+
+	void writePlaneLabelFile(string filename, bool run_mrf = false);
 
 	/************************************************************************/
 	/* For MRF optimization */

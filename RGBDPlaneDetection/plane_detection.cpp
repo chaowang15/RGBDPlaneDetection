@@ -114,15 +114,9 @@ bool PlaneDetection::runPlaneDetection()
 	// Here we set the plane index of a pixel which does NOT belong to any plane as #planes.
 	// This is for using MRF optimization later.
 	for (int row = 0; row < kDepthHeight; ++row)
-	{
 		for (int col = 0; col < kDepthWidth; ++col)
-		{
 			if (plane_filter.membershipImg.at<int>(row, col) < 0)
-			{
 				plane_filter.membershipImg.at<int>(row, col) = plane_num_;
-			}
-		}
-	}
 	return true;
 }
 
@@ -170,24 +164,40 @@ void PlaneDetection::prepareForMRF()
 }
 
 // Note: input filename_prefix is like '/rgbd-image-folder-path/frame-XXXXXX'
-void PlaneDetection::writeOutputFiles(string filename_prefix, bool run_mrf)
+void PlaneDetection::writeOutputFiles(string output_folder, string frame_name, bool run_mrf)
 {
-	string plane_filename = filename_prefix + "-plane";
-	cv::imwrite(plane_filename + ".png", seg_img_);
-	cv::imwrite(plane_filename + "-mapping.png", plane_filter.membershipImg);
+	computePlaneSumStats(run_mrf);
+
+	if (output_folder.back() != '\\' && output_folder.back() != '/')
+		output_folder += "/";	
+	string filename_prefix = output_folder + frame_name + "-plane";
+	cv::imwrite(filename_prefix + ".png", seg_img_);
+	writePlaneLabelFile(filename_prefix + "-label.txt");
+	writePlaneDataFile(filename_prefix + "-data.txt");
 	if (run_mrf)
 	{
-		string opt_plane_filename = filename_prefix + "-plane-opt";
-		cv::imwrite(opt_plane_filename + ".png", opt_seg_img_);
-		cv::imwrite(plane_filename + "-mapping-opt.png", opt_membership_img_);
+		cv::imwrite(filename_prefix + "-opt.png", opt_seg_img_);
+		writePlaneLabelFile(filename_prefix + "-label-opt.txt", run_mrf);
+		writePlaneDataFile(filename_prefix + "-data-opt.txt", run_mrf);
 	}
-	computePlaneSumStats(run_mrf);
-	writePlaneData(plane_filename + "-data.txt");
-	if (run_mrf)
-		writePlaneData(plane_filename + "-data-opt.txt", run_mrf);
+	
+}
+void PlaneDetection::writePlaneLabelFile(string filename, bool run_mrf /* = false */)
+{
+	ofstream out(filename, ios::out);
+	for (int row = 0; row < kDepthHeight; ++row)
+	{
+		for (int col = 0; col < kDepthWidth; ++col)
+		{
+			int label = run_mrf ? opt_membership_img_.at<int>(row, col) : plane_filter.membershipImg.at<int>(row, col);
+			out << label << " ";
+		}
+		out << endl;
+	}
+	out.close();
 }
 
-void PlaneDetection::writePlaneData(string filename, bool run_mrf /* = false */)
+void PlaneDetection::writePlaneDataFile(string filename, bool run_mrf /* = false */)
 {
 	ofstream out(filename, ios::out);
 	out << "#plane_index number_of_points_on_the_plane plane_color_in_png_image(1x3) plane_normal(1x3) plane_center(1x3) "
