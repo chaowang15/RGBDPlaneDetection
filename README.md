@@ -10,7 +10,7 @@ RGBD plane detection and color-based plane refinement with MRF optimization. Thi
 - OpenCV
 - Eigen 3
 - [MRF 2.2](http://vision.middlebury.edu/MRF/code/) (already included)
-- [PEAC](http://www-personal.umich.edu/~cforrest/research.html) (already included)
+- Fast single-image plane detection code: [PEAC](http://www-personal.umich.edu/~cforrest/research.html) (already included)
 
 ## Usage
 ```
@@ -18,10 +18,15 @@ RGBDPlaneDetection <-o> color_image depth_image
 ```
 - `-o` is running MRF optimization to refine planes.
 
+A shell script file *demo_RGBDPlaneDetection.sh* is provided here to run the code on a RGBD sequence. Just modify the corresponding paths and parameters to fit your need.
+
 ## Build
-In Windows, use Visual Studio to open sln file and compile and build the code.
+In Windows, use Visual Studio to open sln file and compile and build the code. It tests successfully in Visual Studio 2010 on Windows 7 and 8.1. 
 
 In Linux, you have to write MakeFile or CMakeLists file by yourself.
+
+## Running time
+Without MRF optimization, the execution code by Visual Studio 2010 runs at about 20 FPS (including data I/O) on RGBD images with resolution 640x480 in the computer with 12GB RAM and intel i7 processor. With MRF optimization, the same code runs much slower at about 7 seconds per frame on the same data.  
 
 ## Output
 - Plane segmentation image in PNG
@@ -35,4 +40,4 @@ Here `(sx sy sz)` are average of sum of all 3D points `(x, y, z)` on the plane, 
 ## Note
 - Currently the code only works on [BundleFusion](http://graphics.stanford.edu/projects/bundlefusion/) or [3DLite](http://graphics.stanford.edu/projects/3dlite/) RGBD data. If you want to use other kinds of RGBD data, you need to rewrite the part of reading color and depth images, and reset the camera intrinsic parameters in `plane_detection.h`.
 - Note for the scale factor for depth images in `plane_detection.h`.
-- Sometimes the MRF 2.2 source code crashes in Visual Studio due to some memory management bug, but it seems to work fine in Linux. If you meet to problem, just have a try in Linux, or try to implement the graph-cut/max-flow code by yourself. One suggestion is to use *boykov_kolmogorov_max_flow* in Boost library. 
+- Sometimes the MRF 2.2 source code crashes in Visual Studio due to some memory management bug, but it seems to work fine in Linux. If you meet the problem, just have a try in Linux, or try to implement the graph-cut/max-flow code by yourself. One suggestion is to use *boykov_kolmogorov_max_flow* in Boost library. 
