@@ -306,4 +306,28 @@ void PlaneDetection::computePlaneSumStats(bool run_mrf /* = false */)
 			opt_sum_stats_[pidx].sxy /= num;	opt_sum_stats_[pidx].syz /= num;	opt_sum_stats_[pidx].sxz /= num;
 		}
 	}
+
+	//--------------------------------------------------------------
+	// Only for debug. It doesn't influence the plane detection.
+	for (int pidx = 0; pidx < plane_num_; ++pidx)
+	{
+		double w = 0;
+		//for (int j = 0; j < 3; ++j)
+		//	w -= plane_filter.extractedPlanes[pidx]->normal[j] * plane_filter.extractedPlanes[pidx]->center[j];
+		w -= plane_filter.extractedPlanes[pidx]->normal[0] * sum_stats_[pidx].sx;
+		w -= plane_filter.extractedPlanes[pidx]->normal[1] * sum_stats_[pidx].sy;
+		w -= plane_filter.extractedPlanes[pidx]->normal[2] * sum_stats_[pidx].sz;
+		double sum = 0;
+		for (int i = 0; i < plane_vertices_[pidx].size(); ++i)
+		{
+			int vidx = plane_vertices_[pidx][i];
+			const VertexType& v = cloud.vertices[vidx];
+			double dis = w;
+			for (int j = 0; j < 3; ++j)
+				dis += v[j] * plane_filter.extractedPlanes[pidx]->normal[j];
+			sum += dis * dis;
+		}
+		sum /= plane_vertices_[pidx].size();
+		cout << "Distance for plane " << pidx << ": " << sum << endl;
+	}
 }
