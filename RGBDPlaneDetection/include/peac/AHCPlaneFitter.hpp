@@ -254,29 +254,29 @@ namespace ahc {
 		/**
 		 *  \brief print out the current parameters
 		 */
-		void logParams() const {
-#define TMP_LOG_VAR(var) << #var "="<<(var)<<"\n"
-			std::cout<<"[PlaneFitter] Parameters:\n"
-			TMP_LOG_VAR(width)
-			TMP_LOG_VAR(height)
-			TMP_LOG_VAR(mergeMSETolerance)
-			TMP_LOG_VAR(initMSETolerance)
-			TMP_LOG_VAR(depthSigmaFactor)
-			TMP_LOG_VAR(similarityTh)
-			TMP_LOG_VAR(finalMergeSimilarityTh)
-			TMP_LOG_VAR(simTh_znear)
-			TMP_LOG_VAR(simTh_zfar)
-			TMP_LOG_VAR(simTh_angleMin)
-			TMP_LOG_VAR(simTh_angleMax)
-			TMP_LOG_VAR(depthChangeFactor)
-			TMP_LOG_VAR(maxStep)
-			TMP_LOG_VAR(minSupport)
-			TMP_LOG_VAR(windowWidth)
-			TMP_LOG_VAR(windowHeight)
-			TMP_LOG_VAR(erodeType)
-			TMP_LOG_VAR(doRefine)<<std::endl;
-#undef TMP_LOG_VAR
-		}
+// 		void logParams() const {
+// #define TMP_LOG_VAR(var) << #var "="<<(var)<<"\n"
+// 			std::cout<<"[PlaneFitter] Parameters:\n"
+// 			TMP_LOG_VAR(width)
+// 			TMP_LOG_VAR(height)
+// 			TMP_LOG_VAR(mergeMSETolerance)
+// 			TMP_LOG_VAR(initMSETolerance)
+// 			TMP_LOG_VAR(depthSigmaFactor)
+// 			TMP_LOG_VAR(similarityTh)
+// 			TMP_LOG_VAR(finalMergeSimilarityTh)
+// 			TMP_LOG_VAR(simTh_znear)
+// 			TMP_LOG_VAR(simTh_zfar)
+// 			TMP_LOG_VAR(simTh_angleMin)
+// 			TMP_LOG_VAR(simTh_angleMax)
+// 			TMP_LOG_VAR(depthChangeFactor)
+// 			TMP_LOG_VAR(maxStep)
+// 			TMP_LOG_VAR(minSupport)
+// 			TMP_LOG_VAR(windowWidth)
+// 			TMP_LOG_VAR(windowHeight)
+// 			TMP_LOG_VAR(erodeType)
+// 			TMP_LOG_VAR(doRefine)<<std::endl;
+// #undef TMP_LOG_VAR
+		// }
 
 		/************************************************************************/
 		/* Protected Class Functions                                            */
