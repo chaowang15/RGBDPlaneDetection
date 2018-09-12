@@ -1,5 +1,5 @@
 #!/bin/sh
-# A short function to show colored text on screen
+# Function to show colored text on screen
 cecho() {
   local code="\033["
   case "$1" in
@@ -18,9 +18,11 @@ cecho() {
 }
 
 # RGBD="/d/3drecon/data/3dlite/apt/apt-rgbd-render/"
-RGBD="/d/3drecon/data/bundlefusion/copyroom/copyroom/"
-OUTPUT="/d/3drecon/data/bundlefusion/copyroom/copyroom-plane-temp/"
+# RGBD="/d/3drecon/data/bundlefusion/copyroom/copyroom/"
+# OUTPUT="/d/3drecon/data/bundlefusion/copyroom/copyroom-plane-temp/"
 ORIGINALRGBD="/d/3drecon/data/bundlefusion/copyroom/copyroom/"
+RGBD="/d/3drecon/data/bundlefusion/office0/office0_temp/office0_temp-original-clusters800-inner0.001s-border0.1-clean/"
+OUTPUT=$RGBD
 if [ ! -d "$OUTPUT" ]; then
   mkdir $OUTPUT
 fi
@@ -37,7 +39,8 @@ for i in  $(seq -f "%06g" 0 $num)
 do
 	cecho g "Reading frame $i"
   # $code ${RGBD}frame-$i-color.png ${RGBD}frame-$i-depth.png $OUTPUT
-  $code -o ${RGBD}frame-$i.color.jpg ${RGBD}frame-$i.depth.png $OUTPUT
+  # $code -o ${RGBD}frame-$i.color.jpg ${RGBD}frame-$i.depth.png $OUTPUT
+  $code ${RGBD}frame-$i.rendered-color.jpg ${RGBD}frame-$i.rendered-depth.png $OUTPUT
 	# $code -o ${RGBD}frame-$i-color.png ${RGBD}frame-$i-depth.png
   cecho g "Copying pose file of frame $i"
   # cp ${ORIGINALRGBD}frame-$i.pose.txt ${OUTPUT}frame-$i-pose.txt
