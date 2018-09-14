@@ -185,6 +185,12 @@ void PlaneDetection::writeOutputFiles(string output_folder, string frame_name, b
 void PlaneDetection::writePlaneLabelFile(string filename, bool run_mrf /* = false */)
 {
 	ofstream out(filename, ios::out);
+	out << plane_num_ << endl;
+	if (plane_num_ == 0)
+	{
+		out.close();
+		return;
+	}
 	for (int row = 0; row < kDepthHeight; ++row)
 	{
 		for (int col = 0; col < kDepthWidth; ++col)
