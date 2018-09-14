@@ -28,6 +28,10 @@ const double kCy = 240;
 const int kDepthWidth = 640;
 const int kDepthHeight = 480;
 
+#ifdef __linux__
+#define _isnan(x) isnan(x)
+#endif
+
 struct ImagePointCloud
 {
 	vector<VertexType> vertices; // 3D vertices
