@@ -55,6 +55,10 @@ moc*.h
 ui_*.h
 GeneratedFiles/
 
+# Visual Studio folders
+Debug
+Release
+
 ##############################################################
 # Qtcreator files
 build*Debug
