@@ -34,13 +34,13 @@ cecho g "RGBDPlaneDetection code: $code"
 #     echo $file >> list.txt
 #     python $genply 
 # done
-num=400
-for i in  $(seq -f "%06g" 0 $num)
+num=250
+for i in  $(seq -f "%06g" 240 $num)
 do
 	cecho g "Reading frame $i"
   # $code ${RGBD}frame-$i-color.png ${RGBD}frame-$i-depth.png $OUTPUT
   # $code -o ${RGBD}frame-$i.color.jpg ${RGBD}frame-$i.depth.png $OUTPUT
-  $code ${RGBD}frame-$i.rendered-color.png ${RGBD}frame-$i.rendered-depth.png $OUTPUT
+  $code -o ${RGBD}frame-$i.rendered-color.png ${RGBD}frame-$i.rendered-depth.png $OUTPUT
 	# $code -o ${RGBD}frame-$i-color.png ${RGBD}frame-$i-depth.png
   cecho g "Copying pose file of frame $i"
   # cp ${ORIGINALRGBD}frame-$i.pose.txt ${OUTPUT}frame-$i-pose.txt

@@ -9,6 +9,7 @@
 #include "AHCPlaneFitter.hpp"
 #include "mrf.h"
 #include "GCoptimization.h"
+#include <unordered_map>
 
 using namespace std;
 
@@ -78,6 +79,8 @@ public:
 	vector<cv::Vec3b> plane_colors_;
 	vector<SumStats> sum_stats_, opt_sum_stats_; // parameters of sum of points from the same plane
 	vector<int> plane_pixel_nums_, opt_plane_pixel_nums_; // number of pixels each plane has
+	unordered_map<int, int> pid_to_extractedpid; // plane index -> extracted plane index of plane_filter.extractedPlanes
+	unordered_map<int, int> extractedpid_to_pid; // extracted plane index -> plane index
 
 public:
 	PlaneDetection();

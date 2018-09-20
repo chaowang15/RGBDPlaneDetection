@@ -223,10 +223,11 @@ void PlaneDetection::writePlaneDataFile(string filename, bool run_mrf /* = false
 		out << int(c.val[2]) << " " << int(c.val[1]) << " "<< int(c.val[0]) << " "; // OpenCV uses BGR by default
 
 		// Plane normal and center
+		int new_pidx = pid_to_extractedpid[pidx];
 		for (int i = 0; i < 3; ++i)
-			out << plane_filter.extractedPlanes[pidx]->normal[i] << " ";
+			out << plane_filter.extractedPlanes[new_pidx]->normal[i] << " ";
 		for (int i = 0; i < 3; ++i)
-			out << plane_filter.extractedPlanes[pidx]->center[i] << " ";
+			out << plane_filter.extractedPlanes[new_pidx]->center[i] << " ";
 
 		// Sum of all points on the plane
 		if (run_mrf)
@@ -283,6 +284,40 @@ void PlaneDetection::computePlaneSumStats(bool run_mrf /* = false */)
 		sum_stats_[pidx].sx /= num;		sum_stats_[pidx].sy /= num;		sum_stats_[pidx].sz /= num;
 		sum_stats_[pidx].sxx /= num;	sum_stats_[pidx].syy /= num;	sum_stats_[pidx].szz /= num;
 		sum_stats_[pidx].sxy /= num;	sum_stats_[pidx].syz /= num;	sum_stats_[pidx].sxz /= num;
+	}
+	// Note that the order of extracted planes in `plane_filter.extractedPlanes` is DIFFERENT from
+	// the plane order in `plane_vertices_` after running plane detection function `plane_filter.run()`.
+	// So here we compute a mapping between these two types of plane indices by comparing plane centers.
+	vector<double> sx(plane_num_), sy(plane_num_), sz(plane_num_);
+	for (int i = 0; i < plane_filter.extractedPlanes.size(); ++i)
+	{
+		sx[i] = plane_filter.extractedPlanes[i]->stats.sx / plane_filter.extractedPlanes[i]->stats.N;
+		sy[i] = plane_filter.extractedPlanes[i]->stats.sy / plane_filter.extractedPlanes[i]->stats.N;
+		sz[i] = plane_filter.extractedPlanes[i]->stats.sz / plane_filter.extractedPlanes[i]->stats.N;
+	}
+	extractedpid_to_pid.clear();
+	pid_to_extractedpid.clear();
+	// If two planes' centers are closest, then the two planes are corresponding to each other.
+	for (int i = 0; i < plane_num_; ++i)
+	{
+		double min_dis = 1000000;
+		int min_idx = -1;
+		for (int j = 0; j < plane_num_; ++j)
+		{
+			double a = sum_stats_[i].sx - sx[j], b = sum_stats_[i].sy - sy[j], c = sum_stats_[i].sz - sz[j];
+			double dis = a * a + b * b + c * c;
+			if (dis < min_dis)
+			{
+				min_dis = dis;
+				min_idx = j;
+			}
+		}
+		if (extractedpid_to_pid.find(min_idx) != extractedpid_to_pid.end())
+		{
+			cout << "   WARNING: a mapping already exists for extracted plane " << min_idx << ":" << extractedpid_to_pid[min_idx] << " -> " << min_idx << endl;
+		}
+		pid_to_extractedpid[i] = min_idx;
+		extractedpid_to_pid[min_idx] = i;
 	}
 	if (run_mrf)
 	{
