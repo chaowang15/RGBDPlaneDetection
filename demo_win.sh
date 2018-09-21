@@ -21,7 +21,8 @@ cecho() {
 # RGBD="/d/3drecon/data/bundlefusion/copyroom/copyroom/"
 # OUTPUT="/d/3drecon/data/bundlefusion/copyroom/copyroom-plane-temp/"
 # ORIGINALRGBD="/d/3drecon/data/bundlefusion/copyroom/copyroom/"
-RGBD="/d/3drecon/data/bundlefusion/office0/office0_temp/office0_temp-original/"
+# RGBD="/d/3drecon/data/bundlefusion/office0/office0_temp/office0_temp-original/"
+RGBD="/d/3drecon/data/bundlefusion/copyroom/copyroom_all/copyroom_all-original/"
 OUTPUT=$RGBD
 if [ ! -d "$OUTPUT" ]; then
   mkdir $OUTPUT
@@ -34,8 +35,9 @@ cecho g "RGBDPlaneDetection code: $code"
 #     echo $file >> list.txt
 #     python $genply 
 # done
-num=250
-for i in  $(seq -f "%06g" 240 $num)
+start=0
+end=4479
+for i in  $(seq -f "%06g" $start $end)
 do
 	cecho g "Reading frame $i"
   # $code ${RGBD}frame-$i-color.png ${RGBD}frame-$i-depth.png $OUTPUT
