@@ -2,17 +2,43 @@
 This code is an implementation of RGB-D plane detection and color-based plane refinement with MRF optimization. 
 
 ## Reference
-**General pipeline**: 
+#### General pipeline
+```
+@article{huang20173dlite,
+  title={3Dlite: towards commodity 3D scanning for content creation.},
+  author={Huang, Jingwei and Dai, Angela and Guibas, Leonidas J and Nie{\ss}ner, Matthias},
+  journal={ACM Trans. Graph.},
+  volume={36},
+  number={6},
+  pages={203--1},
+  year={2017}
+}
+```
+and
+```
+@inproceedings{wang2018plane,
+  title={Plane-Based Optimization of Geometry and Texture for RGB-D Reconstruction of Indoor Scenes},
+  author={Wang, Chao and Guo, Xiaohu},
+  booktitle={2018 International Conference on 3D Vision (3DV)},
+  pages={533--541},
+  year={2018},
+  organization={IEEE}
+}
+```
 
-[1] Huang, Jingwei, et al. *3DLite: Towards Commodity 3D Scanning for Content Creation*. ACM Transactions on Graphics, 2017.
+#### Plane detection on single RGB-D frame 
+```
+@inproceedings{feng2014fast,
+  title={Fast plane extraction in organized point clouds using agglomerative hierarchical clustering},
+  author={Feng, Chen and Taguchi, Yuichi and Kamat, Vineet R},
+  booktitle={Robotics and Automation (ICRA), 2014 IEEE International Conference on},
+  pages={6218--6225},
+  year={2014},
+  organization={IEEE}
+}
+```
 
-[2] Wang, Chao, et al. "Plane-Based Optimization of Geometry and Texture for RGB-D Reconstruction of Indoor Scenes". International conference on 3D Vision (3DV) 2018, pp. 533-541.
-
-**Plane detection**: 
-
-Feng, Chen, Yuichi Taguchi, and Vineet R. Kamat. *Fast plane extraction in organized point clouds using agglomerative hierarchical clustering*. Robotics and Automation (ICRA), 2014 IEEE International Conference on. IEEE, 2014.
-
-**MRF**:
+#### MRF
 
 See the readme file in [MRF 2.2](http://vision.middlebury.edu/MRF/code/) link for details about reference papers.
 
