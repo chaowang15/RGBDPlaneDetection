@@ -50,9 +50,10 @@ See the readme file in [MRF 2.2](http://vision.middlebury.edu/MRF/code/) link fo
 
 ## Usage
 ```
-RGBDPlaneDetection <-o> color_image depth_image
+RGBDPlaneDetection <-o> color_image depth_image output_folder
 ```
-- `-o` is running MRF optimization to refine planes.
+
+`-o` (optional) is to run MRF-based optimization for plane refinement.
 
 Two scripts `demo_win.sh` and `demo_linux.sh` are provided to run the code on a RGB-D sequence. Note to modify the corresponding paths.
 
