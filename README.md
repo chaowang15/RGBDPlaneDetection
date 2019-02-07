@@ -1,8 +1,32 @@
 # RGBDPlaneDetection
 This code is an implementation of RGB-D plane detection and color-based plane refinement with MRF optimization. 
 
+Original color image of one frame (*frame-000000.color.jpg* of [copyroom data](http://graphics.stanford.edu/projects/bundlefusion/data/copyroom/copyroom.zip) from [BundleFusion dataset](http://graphics.stanford.edu/projects/bundlefusion/)):
+
+![](pic/frame-000000.color.jpg)
+
+Planes:
+
+![](pic/frame-000000-plane.png)
+
+Planes after MRF-based optimization:
+
+![](pic/frame-000000-plane-opt.png)
+
+
 ## Reference
-#### General pipeline
+### General pipeline
+```
+@inproceedings{wang2018plane,
+  title={Plane-Based Optimization of Geometry and Texture for RGB-D Reconstruction of Indoor Scenes},
+  author={Wang, Chao and Guo, Xiaohu},
+  booktitle={2018 International Conference on 3D Vision (3DV)},
+  pages={533--541},
+  year={2018},
+  organization={IEEE}
+}
+```
+and
 ```
 @article{huang20173dlite,
   title={3Dlite: towards commodity 3D scanning for content creation.},
@@ -14,19 +38,7 @@ This code is an implementation of RGB-D plane detection and color-based plane re
   year={2017}
 }
 ```
-and
-```
-@inproceedings{wang2018plane,
-  title={Plane-Based Optimization of Geometry and Texture for RGB-D Reconstruction of Indoor Scenes},
-  author={Wang, Chao and Guo, Xiaohu},
-  booktitle={2018 International Conference on 3D Vision (3DV)},
-  pages={533--541},
-  year={2018},
-  organization={IEEE}
-}
-```
-
-#### Plane detection on single RGB-D frame 
+### Plane detection on a single RGB-D frame 
 ```
 @inproceedings{feng2014fast,
   title={Fast plane extraction in organized point clouds using agglomerative hierarchical clustering},
@@ -37,9 +49,7 @@ and
   organization={IEEE}
 }
 ```
-
-#### MRF
-
+### MRF
 See the readme file in [MRF 2.2](http://vision.middlebury.edu/MRF/code/) link for details about reference papers.
 
 ## Dependencies
