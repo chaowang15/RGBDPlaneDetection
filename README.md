@@ -15,7 +15,7 @@ Planes after MRF-based optimization:
 
 
 ## Reference
-### General pipeline
+General pipeline:
 ```
 @inproceedings{wang2018plane,
   title={Plane-Based Optimization of Geometry and Texture for RGB-D Reconstruction of Indoor Scenes},
@@ -26,19 +26,7 @@ Planes after MRF-based optimization:
   organization={IEEE}
 }
 ```
-and
-```
-@article{huang20173dlite,
-  title={3Dlite: towards commodity 3D scanning for content creation.},
-  author={Huang, Jingwei and Dai, Angela and Guibas, Leonidas J and Nie{\ss}ner, Matthias},
-  journal={ACM Trans. Graph.},
-  volume={36},
-  number={6},
-  pages={203--1},
-  year={2017}
-}
-```
-### Plane detection on a single RGB-D frame 
+and plane detection on a single RGB-D frame:
 ```
 @inproceedings{feng2014fast,
   title={Fast plane extraction in organized point clouds using agglomerative hierarchical clustering},
@@ -49,8 +37,6 @@ and
   organization={IEEE}
 }
 ```
-### MRF
-See the readme file in [MRF 2.2](http://vision.middlebury.edu/MRF/code/) link for details about reference papers.
 
 ## Dependencies
 - OpenCV
