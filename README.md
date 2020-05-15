@@ -1,14 +1,13 @@
 # RGBDPlaneDetection
 This code is an implementation of RGB-D plane detection and color-based plane refinement with MRF optimization. 
 
-Example: input color and depth image of `frame-000000` from [BundleFusion dataset](http://graphics.stanford.edu/projects/bundlefusion/)'s [copyroom](http://graphics.stanford.edu/projects/bundlefusion/data/copyroom/copyroom.zip):
+Example: input color and depth image of `frame-000000` from [BundleFusion dataset](http://graphics.stanford.edu/projects/bundlefusion/)'s [copyroom](http://graphics.stanford.edu/projects/bundlefusion/data/copyroom/copyroom.zip) (the depth image here is scaled by a factor 10 for rendering purpose):
 
-![](pic/frame-000000.color.jpg) ![](pic/frame-000000.depth.png)
+<img src="pic/color_depth.png" width="720">
 
 Result planes without (left) and with (right) MRF-based optimization:
 
-![](pic/frame-000000-plane.png) ![](pic/frame-000000-plane-opt.png)
-
+<img src="pic/plane_results.png" width="720">
 
 ## Reference
 General pipeline:
