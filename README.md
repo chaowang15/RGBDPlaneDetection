@@ -53,12 +53,12 @@ RGBDPlaneDetection -o ../pic/frame-000000.color.jpg ../pic/frame-000000.depth.pn
 Two scripts `demo_win.sh` and `demo_linux.sh` are provided to run the code on a RGB-D sequence. Note to modify the corresponding paths.
 
 ## Build
-- **Windows**: use Visual Studio to open sln file and compile and build the code. It tests successfully in Visual Studio 2013, and should work on all other Visual Studio platforms. Note to change your OpenCV and Eigen 3 paths if needed.
+- **Windows**: use Visual Studio to open sln file and compile and build the code. It tests successfully in Visual Studio 2010 and 2013, and should work on all other Visual Studio platforms. Note to change your OpenCV and Eigen 3 paths if needed.
 
 - **Linux or Mac OS**: run `build_linux.sh` to build the code.
 
 ## Running time
-Without MRF optimization, the execution code by Visual Studio 2013 runs at about 25 FPS (including data I/O) on RGBD images with resolution 640x480 in a PC with 16GB RAM and intel i7 processor. With MRF optimization, the same code runs much slower at about 7 seconds per frame on the same data.  
+Without MRF optimization, the execution program by Visual Studio 2010 or 2013 runs at about 25 FPS (including data I/O) on RGBD images with resolution 640x480 in a PC with 16GB RAM and intel i7 processor. With MRF optimization, the same code runs much slower at about 7 seconds per frame on the same data.  
 
 ## Output
 1) Plane segmentation image in PNG;
@@ -72,4 +72,4 @@ Here `(sx sy sz)` are average of sum of all 3D points `(x, y, z)` on the plane, 
 ## Note
 - Currently the code only works on [BundleFusion](http://graphics.stanford.edu/projects/bundlefusion/) or [3DLite](http://graphics.stanford.edu/projects/3dlite/) RGBD data. If you want to use other kinds of RGBD data, you need to rewrite the part of reading color and depth images, and reset the camera intrinsic parameters in `plane_detection.h`.
 - Note for the scale factor for depth images in `plane_detection.h`.
-- Sometimes the MRF 2.2 source code crashes in Visual Studio in Windows due to some kind of memory leak problem, but the code works well in Linux. If you meet the problem, just have a try in Linux, or try to implement the graph-cut/max-flow code by yourself. One suggestion is to use *boykov_kolmogorov_max_flow* in Boost library. 
+- **NOTE for MRF crash in Windows**: Sometimes [MRF 2.2](http://vision.middlebury.edu/MRF/code/) source code crashes in Visual Studio in Windows due to some kind of memory leak problem, but the code works well in Linux and Mac OS. If you meet this problem, just have a try in Linux or Mac OS, or try to implement the graph-cut/max-flow code by yourself. One suggestion is to use *boykov_kolmogorov_max_flow* in Boost library. 
