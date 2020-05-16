@@ -29,7 +29,7 @@ const double kCy = 240;
 const int kDepthWidth = 640;
 const int kDepthHeight = 480;
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #define _isnan(x) isnan(x)
 #endif
 
@@ -44,7 +44,7 @@ struct ImagePointCloud
 		const int pixIdx = row * w + col;
 		z = vertices[pixIdx][2];
 		// Remove points with 0 or invalid depth in case they are detected as a plane
-		if (z == 0 || isnan(z)) return false;
+		if (z == 0 || _isnan(z)) return false;
 		x = vertices[pixIdx][0];
 		y = vertices[pixIdx][1];
 		return true;

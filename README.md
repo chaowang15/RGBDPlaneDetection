@@ -1,5 +1,6 @@
 # RGBDPlaneDetection
-This code is an implementation of RGB-D plane detection and color-based plane refinement with MRF optimization. 
+
+This code is an implementation of RGB-D plane detection and color-based plane refinement with MRF(graph-cut) optimization. 
 
 Example: input color and depth image of `frame-000000` from [BundleFusion dataset](http://graphics.stanford.edu/projects/bundlefusion/)'s [copyroom](http://graphics.stanford.edu/projects/bundlefusion/data/copyroom/copyroom.zip) (the depth image here is scaled by a factor 10 for rendering purpose):
 
@@ -43,24 +44,26 @@ and plane detection on a single RGB-D frame:
 ```
 RGBDPlaneDetection <-o> color_image depth_image output_folder
 ```
-
 `-o` (optional) is to run MRF-based optimization for plane refinement. For example:
 ```
 RGBDPlaneDetection ../pic/frame-000000.color.jpg ../pic/frame-000000.depth.png ../pic 
 RGBDPlaneDetection -o ../pic/frame-000000.color.jpg ../pic/frame-000000.depth.png ../pic 
 ```
 
-Two scripts `demo_win.sh` and `demo_linux.sh` are provided to run the code on a RGB-D sequence. Note to modify the corresponding paths.
+Two scripts `demo_win.sh` and `demo_linux_mac.sh` are provided for reference to run the code on a RGB-D sequence with multiple images. Note to modify the corresponding paths.
 
 ## Build
-- **Windows**: use Visual Studio to open sln file and compile and build the code. It tests successfully in Visual Studio 2010 and 2013, and should work on all other Visual Studio platforms. Note to change your OpenCV and Eigen 3 paths if needed.
+- **Windows**: use Visual Studio to open sln file and compile and build the code. It is tested successfully in Visual Studio 2010 and 2013, and should work on all other Visual Studio platforms. Note to change your OpenCV and Eigen 3 paths if needed.
 
-- **Linux or Mac OS**: run `build_linux.sh` to build the code.
+- **Linux or Mac OS**: run `build_linux_mac.sh` to build the code.
 
 ## Running time
 Without MRF optimization, the execution program by Visual Studio 2010 or 2013 runs at about 25 FPS (including data I/O) on RGBD images with resolution 640x480 in a PC with 16GB RAM and intel i7 processor. With MRF optimization, the same code runs much slower at about 7 seconds per frame on the same data.  
 
-## Output
+## Input and Output
+**Input**: color image and depth image.
+
+**Output**:
 1) Plane segmentation image in PNG;
 2) Plane label file in TXT: the label index of the plane which each pixel belongs to, starting from 0 to N - 1 where N is the number of planes. If a pixel is not on any plane, then its label value is N.
 3) Plane data file in TXT. Each line represents one plane with format like this:
@@ -70,6 +73,6 @@ Without MRF optimization, the execution program by Visual Studio 2010 or 2013 ru
 Here `(sx sy sz)` are average of sum of all 3D points `(x, y, z)` on the plane, `(sxx syy szz sxy syz sxz)` are the average of sum of `x*x, y*y, z*z, x*y, y*z, z*z` of all 3D points on the plane, respectively.
 
 ## Note
-- Currently the code only works on [BundleFusion](http://graphics.stanford.edu/projects/bundlefusion/) or [3DLite](http://graphics.stanford.edu/projects/3dlite/) RGBD data. If you want to use other kinds of RGBD data, you need to rewrite the part of reading color and depth images, and reset the camera intrinsic parameters in `plane_detection.h`.
-- Note for the scale factor for depth images in `plane_detection.h`.
-- **NOTE for MRF crash in Windows**: Sometimes [MRF 2.2](http://vision.middlebury.edu/MRF/code/) source code crashes in Visual Studio in Windows due to some kind of memory leak problem, but the code works well in Linux and Mac OS. If you meet this problem, just have a try in Linux or Mac OS, or try to implement the graph-cut/max-flow code by yourself. One suggestion is to use *boykov_kolmogorov_max_flow* in Boost library. 
+- Without MRF optimization, this code is simply the re-use of PEAC code.
+- Currently the code only works on [BundleFusion](http://graphics.stanford.edu/projects/bundlefusion/) or [3DLite](http://graphics.stanford.edu/projects/3dlite/) depth data format (16UC1 image with depth value in millimeter). If you want to use other kinds of RGB-D data, you need to rewrite the part of reading color and depth images, reset the camera intrinsic parameters the scale factor for depth images in `plane_detection.h`.
+- **NOTE for MRF crash in Windows**: Sometimes [MRF 2.2](http://vision.middlebury.edu/MRF/code/) source code crashes in Visual Studio in Windows due to some kind of memory leak problem, but this code works well in Linux and Mac OS. If you meet this problem, just have a try in Linux or Mac OS, or remove the MRF optimization option `-o`.
