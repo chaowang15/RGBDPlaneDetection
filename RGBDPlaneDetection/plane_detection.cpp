@@ -92,7 +92,7 @@ bool PlaneDetection::readDepthImage(string filename)
 		for (int j = 0; j < cols; ++j)
 		{
 			double z = (double)(depth_img.at<unsigned short>(i, j)) / kScaleFactor;
-			if (_isnan(z))
+			if (isnan(z))
 			{
 				cloud.vertices[vertex_idx++] = VertexType(0, 0, z);
 				continue;

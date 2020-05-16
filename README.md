@@ -34,33 +34,36 @@ and plane detection on a single RGB-D frame:
 ```
 
 ## Dependencies
-- OpenCV
+- OpenCV 3
 - Eigen 3
 - [MRF 2.2](http://vision.middlebury.edu/MRF/code/) (already included)
-- Fast single-image plane detection code: [PEAC](http://www-personal.umich.edu/~cforrest/research.html) (already included)
+- Fast plane detection on a single depth image: [PEAC](http://www-personal.umich.edu/~cforrest/research.html) (already included)
 
 ## Usage
 ```
 RGBDPlaneDetection <-o> color_image depth_image output_folder
 ```
 
-`-o` (optional) is to run MRF-based optimization for plane refinement.
+`-o` (optional) is to run MRF-based optimization for plane refinement. For example:
+```
+RGBDPlaneDetection ../pic/frame-000000.color.jpg ../pic/frame-000000.depth.png ../pic 
+RGBDPlaneDetection -o ../pic/frame-000000.color.jpg ../pic/frame-000000.depth.png ../pic 
+```
 
 Two scripts `demo_win.sh` and `demo_linux.sh` are provided to run the code on a RGB-D sequence. Note to modify the corresponding paths.
 
 ## Build
-In Windows, use Visual Studio to open sln file and compile and build the code. It tests successfully in Visual Studio 2010 on Windows 7 and 8.1. 
+- **Windows**: use Visual Studio to open sln file and compile and build the code. It tests successfully in Visual Studio 2013, and should work on all other Visual Studio platforms. Note to change your OpenCV and Eigen 3 paths if needed.
 
-In Linux, run `build_linux.sh` to build the code.
-
+- **Linux or Mac OS**: run `build_linux.sh` to build the code.
 
 ## Running time
-Without MRF optimization, the execution code by Visual Studio 2010 runs at about 20 FPS (including data I/O) on RGBD images with resolution 640x480 in the computer with 12GB RAM and intel i7 processor. With MRF optimization, the same code runs much slower at about 7 seconds per frame on the same data.  
+Without MRF optimization, the execution code by Visual Studio 2013 runs at about 25 FPS (including data I/O) on RGBD images with resolution 640x480 in a PC with 16GB RAM and intel i7 processor. With MRF optimization, the same code runs much slower at about 7 seconds per frame on the same data.  
 
 ## Output
-- Plane segmentation image in PNG
-- Plane label file in TXT: label of the plane which each pixel belongs to (starting from 0 to #planes - 1). If a pixel is not on any plane, then its label value is #planes.
-- Plane data file in TXT. Each line represents one plane with format like this:
+1) Plane segmentation image in PNG;
+2) Plane label file in TXT: the label index of the plane which each pixel belongs to, starting from 0 to N - 1 where N is the number of planes. If a pixel is not on any plane, then its label value is N.
+3) Plane data file in TXT. Each line represents one plane with format like this:
 ```
 #plane_index(starting from 0 to #planes - 1) number_of_points_on_the_plane plane_color_in_png_image(r,g,b between [0,255]) plane_normal(1x3) plane_center(1x3) sx sy sz sxx syy szz sxy syz sxz
 ```

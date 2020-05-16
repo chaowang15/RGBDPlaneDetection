@@ -8,9 +8,9 @@ set(CMAKE_CXX_COMPILER /usr/bin/g++)
 set(CMAKE_BUILD_TYPE "Release")
 
 # put FindGLFW.cmake in the source directory of CMakeLists.txt
-find_package(OpenCV REQUIRED)
+find_package(OpenCV 3.4 REQUIRED)
 
-include_directories(${OpenCV_INCLUDE_DIRS} /usr/include/eigen3)
+include_directories(${OpenCV_INCLUDE_DIRS} /usr/local/include/eigen3)
 include_directories(include/peac)
 include_directories(include/MRF2.2)
 
